@@ -239,12 +239,17 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
             for k, v in storage.all().items():
-                if k.split('.')[0] == args:
+                # print(type(v).__name__)
+                # if k.split('.')[0] == args:
+                if type(v).__name__ == args:
                     print_list.append(v.__str__())
+            # print(storage.all())
         else:
             for k, v in storage.all().items():
                 print_list.append(v.__str__())
 
+        # mod_list = [s.replace('"', '') for s in print_list]
+        # print(mod_list)
         print(print_list)
 
     def help_all(self):

@@ -10,7 +10,7 @@ class State(BaseModel, Base):
     """ State class """
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
-    cities = relationship("City", backref="states")
+    cities = relationship("City", backref="states", cascade="all, delete-orphan")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -25,5 +25,5 @@ class State(BaseModel, Base):
             results = []
             for city_id in cities:
                 if cities[city_id].state_id == self.id:
-                    result.append(cities[city_id])
+                    results.append(cities[city_id])
             return results

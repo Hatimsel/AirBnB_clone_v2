@@ -51,7 +51,7 @@ class DBStorage():
                 dic[key] = row
         else:
             classes = [
-                State, City
+                State, City, User
             ]
             for clss in classes:
                 results = self.__session.query(clss).all()
