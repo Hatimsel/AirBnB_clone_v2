@@ -49,18 +49,18 @@ class Place(BaseModel, Base):
     #                          viewonly=False, secondary=place_amenity,
     #                          back_populates="place_amenities")
     #
-    # if os.getenv('HBNB_TYPE_STORAGE') != 'db':
-    #     @property
-    #     def reviews(self):
-    #         """
-    #         """
-    #         from models.__init__ import storage
-    #         results = storage.all('Review')
-    #         instances = []
-    #         for review in results:
-    #             if review.place_id == self.id:
-    #                 instances.append(review)
-    #         return instances
+    if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+        @property
+        def reviews(self):
+            """
+            """
+            from models.__init__ import storage
+            results = storage.all('Review')
+            instances = []
+            for review in results:
+                if review.place_id == self.id:
+                    instances.append(review)
+            return instances
         #
         # @property
         # def amenities(self):
