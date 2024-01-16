@@ -9,14 +9,14 @@ from sqlalchemy.orm import relationship
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = "states"
-    name = Column(String(128), nullable=False)
-    cities = relationship("City", backref="state",
-                          cascade="all, delete-orphan")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        name = Column(String(128), nullable=False)
+        cities = relationship("City", backref="state",
+                              cascade="all, delete, delete-orphan")
 
-    if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+    else:
+        name = ''
         @property
         def cities(self):
             from models.__init__ import storage
@@ -26,3 +26,5 @@ class State(BaseModel, Base):
                 if city.state_id == self.id:
                     cts.append(city)
             return cts
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
