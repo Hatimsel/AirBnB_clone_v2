@@ -3,7 +3,7 @@
 import uuid
 from datetime import datetime
 # import models
-from sqlalchemy import Column, Integer, String, DateTime, MetaData
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
 # mymetadata = MetaData()
@@ -27,11 +27,23 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
         else:
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            del kwargs['__class__']
+            if 'id' not in kwargs.keys():
+                kwargs['id'] = str(uuid.uuid4())
+            if 'created_at' in kwargs.keys():
+                kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
+                                                         '%Y-%m-%dT%H:%M:%S.%f'
+                                                         )
+            else:
+                kwargs['created_at'] = datetime.now().isoformat()
+            if 'updated_at' in kwargs.keys():
+                kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
+                                                         '%Y-%m-%dT%H:%M:%S.%f'
+                                                         )
+            else:
+                kwargs['updated_at'] = datetime.now().isoformat()
+
+            if '__class__' in kwargs.keys():
+                del kwargs['__class__']
             self.__dict__.update(kwargs)
             from models import storage
             storage.new(self)

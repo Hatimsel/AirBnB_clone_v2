@@ -129,6 +129,9 @@ class HBNBCommand(cmd.Cmd):
             for arg in arguments[1:]:
                 if '=' in arg:
                     key = arg.split('=')[0]
+                    if key not in HBNBCommand.classes[arguments[0]].\
+                            __dict__.keys():
+                        continue
                     val = arg.split('=')[1]
                     if '"' in val:
                         val = val.replace('"', '')
