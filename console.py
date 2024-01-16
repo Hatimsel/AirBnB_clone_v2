@@ -157,7 +157,7 @@ class HBNBCommand(cmd.Cmd):
             return
         else:
             new_instance = HBNBCommand.classes[args]()
-            storage.save()
+            storage.new(new_instance)
             print(new_instance.id)
             storage.save()
 

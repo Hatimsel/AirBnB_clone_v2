@@ -34,13 +34,13 @@ class BaseModel:
                                                          '%Y-%m-%dT%H:%M:%S.%f'
                                                          )
             else:
-                kwargs['created_at'] = datetime.now().isoformat()
+                kwargs['created_at'] = datetime.now()
             if 'updated_at' in kwargs.keys():
                 kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
                                                          '%Y-%m-%dT%H:%M:%S.%f'
                                                          )
             else:
-                kwargs['updated_at'] = datetime.now().isoformat()
+                kwargs['updated_at'] = datetime.now()
 
             if '__class__' in kwargs.keys():
                 del kwargs['__class__']
