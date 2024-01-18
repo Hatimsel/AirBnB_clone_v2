@@ -17,6 +17,7 @@ class State(BaseModel, Base):
 
     else:
         name = ''
+
         @property
         def cities(self):
             from models.__init__ import storage
