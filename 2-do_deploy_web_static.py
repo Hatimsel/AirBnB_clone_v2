@@ -10,6 +10,7 @@ from fabric.api import *
 
 env.user = 'ubuntu'
 env.hosts = ['54.164.144.136', '18.210.33.80']
+env.key_filename = '~/.ssh/school'
 
 
 def do_deploy(archive_path):
@@ -20,17 +21,21 @@ def do_deploy(archive_path):
         if not os.path.exists(archive_path):
             return False
 
-        put('archive_path', '/tmp/')
+        file_name = os.path.basename(archive_path).split('.')[0]
+        put(archive_path, '/tmp/{}'.format(file_name))
 
-        file_name = archive_path.split('/')[1].split('.')[0]
-        run('tar -xzf /tmp/{} /data/web_static/releases/{}'.
-            format(archive_path, file_name))
+        run('mkdir -p /data/web_static/releases/{}'.format(file_name))
+        run('tar -xzf /tmp/{} -C /data/web_static/releases/{}'.format(file_name ,file_name))
+        # run('mv /data/web_static/releases/{}.tgz /data/web_static/releases/{}'.format(file_name, file_name))
 
-        run('rm /tmp/{} {}'.format(archive_path, '/data/web_static/current/'))
+        run('rm -rf /tmp/{}'.format(file_name))
+        run('rm -rf /data/web_static/current')
+
         run(
-            f'ln -s /data/web_static/releases/{file_name}\
+            f'ln -s /data/web_static/releases/{file_name}/web_static\
             /data/web_static/current'
         )
         return True
-    except Exception:
+    except Exception as e:
+        print(f'Error occured: {e}')
         return False
