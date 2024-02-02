@@ -14,9 +14,12 @@ def do_pack():
     try:
         local('mkdir -p versions')
         d = datetime.now()
-        file_name = f'{d.year}{d.month}{d.day}{d.hour}{d.minute}{d.second}'
+        year, month, day = d.year, d.month, d.day
+        hr, min, sec = d.hour, d.minute, d.second
+        file_name = 'web_static_{}{}{}{}{}{}.tgz'\
+                    .format(year, month, day, hr, min, sec)
         local(
-            "tar -czf versions/web_static_{}.tgz web_static".
+            "tar -czf versions/{} web_static".
             format(file_name)
         )
         return f"versions/{file_name}"
