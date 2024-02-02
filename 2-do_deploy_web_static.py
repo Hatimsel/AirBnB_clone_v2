@@ -21,21 +21,33 @@ def do_deploy(archive_path):
         if not os.path.exists(archive_path):
             return False
 
-        file_name = os.path.basename(archive_path).split('.')[0]
-        put(archive_path, '/tmp/{}'.format(file_name))
+        file = os.path.basename(archive_path)
+        file_name = file.split('.')[0]
+        dir = '/data/web_static/releases/'
 
-        run('mkdir -p /data/web_static/releases/{}'.format(file_name))
-        run('tar -xzf /tmp/{} -C /data/web_static/releases/{}'.format(file_name ,file_name))
-        # run('mv /data/web_static/releases/{}.tgz /data/web_static/releases/{}'.format(file_name, file_name))
+        put(archive_path, '/tmp/{}'.format(file))
 
-        run('rm -rf /tmp/{}'.format(file_name))
+        run(
+            'mkdir -p {}{}'
+            .format(dir, file_name)
+        )
+        run(
+            'tar -xzf /tmp/{} -C {}{}'.format(file, dir, file_name))
+
+        run('rm /tmp/{}'.format(file))
+
+        run('mv {}{}/web_static/* {}{}'
+            .format(dir, file_name, dir, file_name))
+
+        run('rm -rf {}{}/web_static'.format(dir, file_name))
+
         run('rm -rf /data/web_static/current')
 
         run(
-            f'ln -s /data/web_static/releases/{file_name}/web_static\
-            /data/web_static/current'
+            'ln -s {}{} /data/web_static/current'
+            .format(dir, file_name)
         )
         return True
-    except Exception as e:
-        print(f'Error occured: {e}')
+
+    except Exception:
         return False
