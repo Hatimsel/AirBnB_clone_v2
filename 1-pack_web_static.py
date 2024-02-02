@@ -19,7 +19,7 @@ def do_pack():
         file_name = 'web_static_{}{}{}{}{}{}.tgz'\
                     .format(year, month, day, hr, min, sec)
         local(
-            "tar -czf versions/{} web_static".
+            "tar -cvzf versions/{} web_static".
             format(file_name)
         )
         return f"versions/{file_name}"

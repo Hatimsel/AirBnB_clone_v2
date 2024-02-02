@@ -25,12 +25,9 @@ def do_deploy(archive_path):
         file_name = file.split('.')[0]
         dir = '/data/web_static/releases/'
 
-        put(archive_path, '/tmp/{}'.format(file))
+        put(archive_path, '/tmp/')
 
-        run(
-            'mkdir -p {}{}'
-            .format(dir, file_name)
-        )
+        run('mkdir -p {}{}'.format(dir, file_name))
         run(
             'tar -xzf /tmp/{} -C {}{}'.format(file, dir, file_name))
 
@@ -43,10 +40,8 @@ def do_deploy(archive_path):
 
         run('rm -rf /data/web_static/current')
 
-        run(
-            'ln -s {}{} /data/web_static/current'
-            .format(dir, file_name)
-        )
+        run('ln -s {}{} /data/web_static/current'
+            .format(dir, file_name))
         return True
 
     except Exception:

@@ -15,6 +15,6 @@ def deploy():
     Creates and distrubutes an archive to the web servers
     """
     path_to_tgz = do_pack()
-    if not os.path.exists(path_to_tgz):
+    if path_to_tgz is None:
         return False
     return do_deploy(path_to_tgz)
