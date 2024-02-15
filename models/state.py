@@ -21,11 +21,12 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             from models.__init__ import storage
+            from models.city import City
             cts = []
-            results = storage.all('City')
+            results = storage.all(City)
+            print(results)
             for city in results:
-                if city.state_id == self.id:
-                    cts.append(city)
+                if results[city].state_id == self.id:
+                    del results[city]._sa_instance_state
+                    cts.append(results[city])
             return cts
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)

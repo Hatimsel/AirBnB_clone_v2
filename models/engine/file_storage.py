@@ -63,3 +63,9 @@ class FileStorage:
             return
         key = obj.to_dict()['__class__'] + '.' + obj.id
         del self.all()[key]
+
+    def close(self):
+        """
+        Calls reload method for deserializing the JSON file to objects
+        """
+        self.reload()
