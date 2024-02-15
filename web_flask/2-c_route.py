@@ -16,6 +16,7 @@ def hbnb():
 
 @app.route("/c/<text>")
 def is_fun(text):
+    text = text.replace('_', ' ')
     return f"C {text}"
 
 
