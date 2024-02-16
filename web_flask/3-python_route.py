@@ -22,7 +22,7 @@ def is_fun(text):
     return f"C {text}"
 
 
-@app.route("/python/", defaults={ 'text': 'is cool'})
+@app.route("/python/", defaults={'text': 'is cool'})
 @app.route("/python/<text>")
 def is_cool(text):
     text = text.replace('_', ' ')
