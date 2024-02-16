@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 """
+List of states
 """
 from flask import Flask, render_template
 from models import storage
 app = Flask(__name__)
+
 
 @app.teardown_appcontext
 def close_session():
@@ -11,6 +13,8 @@ def close_session():
 
 
 app.route("/states_list", strict_slashes=False)
+
+
 def states_list():
     from models.state import State
     states = storage.all(State)
