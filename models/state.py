@@ -24,7 +24,6 @@ class State(BaseModel, Base):
             from models.city import City
             cts = []
             results = storage.all(City)
-            print(results)
             for city in results:
                 if results[city].state_id == self.id:
                     del results[city]._sa_instance_state
