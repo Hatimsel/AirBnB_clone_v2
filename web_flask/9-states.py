@@ -20,18 +20,7 @@ def state_id(id):
     state = (state for state in states if state.id == id)
     if state:
         return render_template('9-states.html', state=state)
-    return """
-<!DOCTYPE html>
-<HTML lang="en">
-    <HEAD>
-        <TITLE>HBNB</TITLE>
-    </HEAD>
-    <BODY>
-
-        <H1>Not found!</H1>
-
-    </BODY>
-</HTML>"""
+    return render_template('9-states.html', state=state)
 
 
 @app.teardown_appcontext
