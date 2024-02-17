@@ -10,7 +10,10 @@ app = Flask(__name__)
 @app.route("/states_list/", strict_slashes=False)
 def states_list():
     from models.state import State
-    states = storage.all(State).values()
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        states = storage.all(State).values()
+    else:
+        states = storage.all(State).values()
     return render_template('7-states_list.html', states=states)
 
 
