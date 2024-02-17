@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 """
-States and state
+Starts a Flask web application
+Routes:
+/states
+/states/<id>
 """
 from flask import Flask, render_template
 from models import storage
@@ -9,12 +12,18 @@ app = Flask(__name__)
 
 @app.route("/states", strict_slashes=False)
 def states():
+    """
+    Returns a Html page contains a list of all states
+    """
     states = storage.all(State).values()
     return render_template('7-states_list.html', states=states)
 
 
 @app.route("states/<id>", strict_slashes=False)
 def state_id(id):
+    """
+    Returns a Html page contains the state that matches the id provided
+    """
     from models.state import State
     states = storage.all(State).values()
     state = (state for state in states if state.id == id)
