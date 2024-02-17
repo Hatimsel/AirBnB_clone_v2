@@ -4,7 +4,6 @@ States and state
 """
 from flask import Flask, render_template
 from models import storage
-from models.state import State
 app = Flask(__name__)
 
 
@@ -16,11 +15,23 @@ def states():
 
 @app.route("states/<id>", strict_slashes=False)
 def state_id(id):
+    from models.state import State
     states = storage.all(State).values()
     state = (state for state in states if state.id == id)
-    if state:
+    if state is not None:
         return render_template('9-states.html', state=state)
-    return render_template('9-states.html', state=state)
+    return """
+<!DOCTYPE html>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+
+        <H1>Not found!</H1>
+
+    </BODY>
+</HTML>"""
 
 
 @app.teardown_appcontext
